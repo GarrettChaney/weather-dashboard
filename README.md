@@ -4,8 +4,8 @@ Monash University Coding Bootcamp Assignment - Module 6 - Weather Dashboard
 # User Story
 
 AS A traveler
-- I WANT to see the weather outlook for multiple cities
-- SO THAT I can plan a trip accordingly
+I WANT to see the weather outlook for multiple cities
+SO THAT I can plan a trip accordingly
 
 #Acceptance Criteria
 
