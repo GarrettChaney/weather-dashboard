@@ -1,0 +1,24 @@
+#history-button {
+    background-color: rgb(192, 190, 190);
+}
+
+#current-forecast {
+    border: 1px solid black;
+}
+
+.card {
+    height: 200px;
+    width: 150px;
+    border: 1px solid black;
+    margin: 0.75rem
+}
+
+.hero {
+    background: linear-gradient(90deg, rgb(0, 119, 255) 0%, rgba(9,9,121,1) 50%, rgb(7, 3, 82) 100%);
+}
+
+hr.solid {
+    margin: 0;
+    padding: 0;
+    border-top: 3px solid #bbb;
+  }
