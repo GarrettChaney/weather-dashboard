@@ -5,6 +5,7 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
   <link rel="stylesheet" href="./assets/css/style.css" />
   <title>Weather Dashboard</title>
@@ -21,16 +22,16 @@
     <div class="column is-one-fifth">
       <div class="container">
         <p class="is-size-3 has-text-left">Search for a City:</p>
-        <input class="input my-1" type="text" placeholder="Text input" />
+        <input id="location-input" class="input my-1" type="text" placeholder="City Name" />
         <div class="buttons m-0">
-          <button class="button is-info is-small is-fullwidth is-size-6">
+          <button id="location-button" class="button is-info is-small is-fullwidth is-size-6">
             Search
           </button>
         </div>
         <hr class="solid mb-2" />
         <div id="history-buttons" class="buttons">
           <button id="history-button" class="button is-small is-fullwidth is-size-6">
-            BUttfuck
+            Pakenham
           </button>
           <button id="history-button" class="button is-small is-fullwidth is-size-6">
             Mornington
@@ -47,40 +48,61 @@
     <div class="column">
       <div id="current-forecast" class="container m-0 p-1">
         <p id="current-location" class="is-size-3 has-text-weight-bold">
-          Pakenham 18/01/2023
+          Location: <span id="date"></span> 
         </p>
         <p class="is-size-5">
-          Temperature: <span id="current-temperature">20c</span>
+          Temperature: <span id="current-temperature"></span>
         </p>
-        <p class="is-size-5">Wind: <span id="current-wind">10</span></p>
+        <p class="is-size-5">Wind: <span id="current-wind"></span></p>
         <p class="is-size-5">
-          Humidity: <span id="current-humidity">44</span>
+          Humidity: <span id="current-humidity"></span>
         </p>
       </div>
       <p class="is-size-4 has-text-weight-bold my-3">5-Day Forecast</p>
       <div class="container">
         <div id="five-day-forecast" class="columns card-container is-flex-wrap-wrap">
-          <div class="card has-background-link">
+          <div class="card has-background-info">
             <div class="card-content"></div>
           </div>
-          <div class="card has-background-link">
+          <div class="card has-background-info">
             <div class="card-content"></div>
           </div>
-          <div class="card has-background-link">
+          <div class="card has-background-info">
             <div class="card-content"></div>
           </div>
-          <div class="card has-background-link">
+          <div class="card has-background-info">
             <div class="card-content"></div>
           </div>
-          <div class="card has-background-link">
+          <div class="card has-background-info">
             <div class="card-content"></div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <script src="https://code.jquery.com/jquery-3.6.3.min.js"
-    integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+
+  <!-- modal -->
+  <div id="modal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content has-text-centered has-background-white py-5 px-5">
+      <h3 class="title mb-6">Specify the location:</h3>
+      <table class="table is-striped is-fullwidth is-bordered is-narrow">
+        <thead>
+          <tr>
+            <th>City</th>
+            <th>State</th>
+            <th>Country</th>
+            <th>Choice</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
   <script src="./assets/js/app.js"></script>
 </body>
 
