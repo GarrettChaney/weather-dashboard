@@ -1,9 +1,13 @@
 $('#location-button').click( () => {
-    $("#tableBody").empty();
-    $("#seven-day-forecast").empty();
-    $('.modal').toggleClass('is-active');
-    let input = $('#location-input').val();
-    geoLocationAPI(input);
+    let query = $('#location-input').val();
+    if (query === '') {
+        return
+    } else {
+        $("#tableBody").empty();
+        $("#seven-day-forecast").empty();
+        $('.modal').toggleClass('is-active');
+        geoLocationAPI(query);
+    }
 })
 
 $('.modal-background').click( () => {
@@ -11,9 +15,6 @@ $('.modal-background').click( () => {
 })
 
 let geoLocationAPI = (query) => {
-    if (query === "") {
-        return
-    }
     let apiKey = 'cf4c28c944be675eda76e953b6fa73c2';
     let url =`https://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=${apiKey}`;
     $.ajax({
@@ -27,7 +28,7 @@ let geoLocationAPI = (query) => {
     })
 }
 
-let openWeatherAPI = ({lat, lon, city}) => {
+let openWeatherAPI = ({city, lat, lon}) => {
     let units = 'metric';
     let exclude = 'minutely,hourly,alerts';
     let apiKey = 'cf4c28c944be675eda76e953b6fa73c2';
@@ -42,6 +43,24 @@ let openWeatherAPI = ({lat, lon, city}) => {
         pushSevenDayForecast(data.daily)
         pushCurrentForecast(currentWeather)
     })
+}
+
+let buildLocationTable = location => {
+    let coordinates = {city: location.name, lat: location.lat.toFixed(2) , lon: location.lon.toFixed(2)};
+    let tableRow = $('<tr></tr>');
+    let locationTableCity = $('<td></td>').text(location.name);
+    let locationTableState = $('<td></td>').text(location.state);
+    let locationTableCountry = $('<td></td>').text(location.country);
+    let locationTableButton = $('<button>Select</button>')
+    $(locationTableButton)
+        .data(coordinates)
+        .addClass('button is-info is-small is-fullwidth')
+        .click( function() {
+            $('.modal').toggleClass('is-active');
+            addSearchHistory($(this).data());
+            openWeatherAPI($(this).data());
+        })
+    $('#tableBody').append(tableRow.append(locationTableCity, locationTableState, locationTableCountry, locationTableButton));
 }
 
 let buildWeatherCard = value => {
@@ -59,23 +78,18 @@ let buildWeatherCard = value => {
     $('#seven-day-forecast').append(weatherCard);
 }
 
-let buildLocationTable = location => {
-    let coordinates = {lat: location.lat.toFixed(2) , lon: location.lon.toFixed(2), city: location.name};
-    let tableRow = $('<tr></tr>');
-    let locationTableCity = $('<td></td>').text(location.name);
-    let locationTableState = $('<td></td>').text(location.state);
-    let locationTableCountry = $('<td></td>').text(location.country);
-    let locationTableButton = $('<button>Select</button>')
-    $(locationTableButton)
+let buildHistoryButton = value => {
+    let coordinates = {city: value.city, lat: value.lat , lon: value.lon};
+    let historyButton = $('<button>'+value. city+'</button>')
+    $(historyButton)
         .data(coordinates)
-        .addClass('button is-info is-small is-fullwidth')
+        .addClass('button history-button is-small is-fullwidth is-size-6')
         .click( function() {
-            $('.modal').toggleClass('is-active');
-            openWeatherAPI($(this).data());
+            $('#seven-day-forecast').empty();
+            openWeatherAPI(coordinates)
         })
-    $('#tableBody').append(tableRow.append(locationTableCity, locationTableState, locationTableCountry, locationTableButton));
+    $('#history-buttons').append(historyButton)
 }
-
 
 let pushCurrentForecast = data => {
     $('#current-date').text(dayjs.unix(data.date).format('DD/MM/YYYY'))
@@ -92,9 +106,43 @@ let pushSevenDayForecast = data => {
     })
 }
 
-let callLocalStorage = () => {
-    
+let addSearchHistory = (coordinates) => {
+    let searchHistory = localStorage.getItem('searchHistory');
+    if (searchHistory) {
+        searchHistory = JSON.parse(searchHistory);
+    } else {
+        searchHistory = [];
+    }
+    let isExist = searchHistory.some(function(history) {
+        return history.city === coordinates.city;
+    });
+
+    if (isExist) {
+        console.log('Already exists in search history.')
+    } else {  
+        searchHistory.unshift(coordinates);
+        if(searchHistory.length > 5) {
+            searchHistory.pop();
+        }
+        let updatedSearchHistory = JSON.stringify(searchHistory);
+        localStorage.setItem('searchHistory', updatedSearchHistory);
+    }
+    updateSearchHistory()
 }
+
+let updateSearchHistory = () => {
+    let searchHistory = localStorage.getItem('searchHistory');
+    if (searchHistory) {
+        searchHistory = JSON.parse(searchHistory)
+    }
+    $('#history-buttons').empty()
+    $.each(searchHistory, (index, value) => {
+        buildHistoryButton(value)
+    })
+}
+
+updateSearchHistory()
+
 
 // $('#pakenham-button').click( () => {
 //     let time = dayjs.unix(1674957600).format()
