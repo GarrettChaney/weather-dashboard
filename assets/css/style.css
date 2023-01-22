@@ -2,7 +2,7 @@ body {
     font-family: 'Poppins', sans-serif;
 }
 
-#history-button {
+.history-button {
     background-color: rgb(192, 190, 190);
 }
 
