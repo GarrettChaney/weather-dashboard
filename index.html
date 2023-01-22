@@ -30,53 +30,28 @@
         </div>
         <hr class="solid mb-2" />
         <div id="history-buttons" class="buttons">
-          <button id="history-button" class="button is-small is-fullwidth is-size-6">
+          <button id="pakenham-button" class="button is-small is-fullwidth is-size-6">
             Pakenham
-          </button>
-          <button id="history-button" class="button is-small is-fullwidth is-size-6">
-            Mornington
-          </button>
-          <button id="history-button" class="button is-small is-fullwidth is-size-6">
-            Melbourne
-          </button>
-          <button id="history-button" class="button is-small is-fullwidth is-size-6">
-            Emerald
           </button>
         </div>
       </div>
     </div>
     <div class="column">
       <div id="current-forecast" class="container m-0 p-1">
-        <p id="current-location" class="is-size-3 has-text-weight-bold">
-          Location: <span id="date"></span> 
+        <p class="is-size-3 has-text-weight-bold">
+          <span id="current-location"></span> - <span id="current-date"></span>
         </p>
         <p class="is-size-5">
-          Temperature: <span id="current-temperature"></span>
+          Temperature: <span id="current-temperature"></span><span>&#176;C</span>
         </p>
-        <p class="is-size-5">Wind: <span id="current-wind"></span></p>
+        <p class="is-size-5">Wind: <span id="current-wind"></span>m/s</p>
         <p class="is-size-5">
-          Humidity: <span id="current-humidity"></span>
+          Humidity: <span id="current-humidity"></span>%
         </p>
       </div>
-      <p class="is-size-4 has-text-weight-bold my-3">5-Day Forecast</p>
-      <div class="container">
-        <div id="five-day-forecast" class="columns card-container is-flex-wrap-wrap">
-          <div class="card has-background-info">
-            <div class="card-content"></div>
-          </div>
-          <div class="card has-background-info">
-            <div class="card-content"></div>
-          </div>
-          <div class="card has-background-info">
-            <div class="card-content"></div>
-          </div>
-          <div class="card has-background-info">
-            <div class="card-content"></div>
-          </div>
-          <div class="card has-background-info">
-            <div class="card-content"></div>
-          </div>
-        </div>
+      <p class="is-size-4 has-text-weight-bold my-3">7-Day Forecast</p>
+      <div class="container is-fullwidth">
+        <div id="seven-day-forecast" class="columns card-container is-fullwidth is-flex-wrap-wrap is-justify-content-left"></div>
       </div>
     </div>
   </div>
@@ -103,6 +78,7 @@
   
   <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js" integrity="sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U=" crossorigin="anonymous"></script>
   <script src="./assets/js/app.js"></script>
 </body>
 

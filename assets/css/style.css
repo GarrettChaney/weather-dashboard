@@ -13,6 +13,11 @@
     margin: 0.75rem
 }
 
+.card-content {
+    height: 100%;
+    width: 100%;
+}
+
 .hero {
     background: linear-gradient(90deg, rgb(0, 119, 255) 0%, rgba(9,9,121,1) 50%, rgb(7, 3, 82) 100%);
 }
