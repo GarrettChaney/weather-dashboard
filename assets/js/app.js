@@ -1,5 +1,8 @@
-let G, options, spans;
+let options, spans;
 
+$(document).ready(init)
+
+// On document ready let's send a request for location.
 function init() {
     if (navigator.geolocation) {
         let giveUp = 1000 * 30;
@@ -9,25 +12,24 @@ function init() {
             timeout: giveUp,
             maximumAge: tooOld
         }
-    
     navigator.geolocation.getCurrentPosition(gotPos, posFail, options);
     } else {
-
     }
 } 
 
+// If we get a location, let's package up the coordinates and send it to the openWeather API
 function gotPos(position) {
     let lat = parseFloat(position.coords.latitude.toFixed(2))
     let lon = parseFloat(position.coords.longitude.toFixed(2))
     openWeatherAPI({city: 'Your Location', lat: lat, lon: lon});
 }
 
+// Print the error the the main-header.
 function posFail(err) {
-    $('#main-header').text(err.message)
+    $('#current-location').text(err.message)
 }
 
-$(document).ready(init)
-
+// Main search button.
 $('#location-button').click( () => {
     let query = $('#location-input').val();
     if (query === '') {
@@ -40,10 +42,12 @@ $('#location-button').click( () => {
     }
 })
 
+// Click out of a modal so user doesn't get stuck.
 $('.modal-background').click( () => {
     $('.modal').toggleClass('is-active')
 })
 
+// geolocationAPI. Put in name, return a list of cities that match the query + their coordinates.
 let geoLocationAPI = (query) => {
     console.log(query)
     let apiKey = 'cf4c28c944be675eda76e953b6fa73c2';
@@ -59,6 +63,7 @@ let geoLocationAPI = (query) => {
     })
 }
 
+// After we decide which coordinates to use, we'll send them through this function to return our weather
 let openWeatherAPI = ({city, lat, lon}) => {
     let units = 'metric';
     let exclude = 'minutely,hourly,alerts';
@@ -76,6 +81,7 @@ let openWeatherAPI = ({city, lat, lon}) => {
     })
 }
 
+// Build a table with every possible location based on searched city name. Let the user decide which they want.
 let buildLocationTable = location => {
     let coordinates = {city: location.name, lat: location.lat.toFixed(2) , lon: location.lon.toFixed(2)};
     let tableRow = $('<tr></tr>');
@@ -94,6 +100,7 @@ let buildLocationTable = location => {
     $('#tableBody').append(tableRow.append(locationTableCity, locationTableState, locationTableCountry, locationTableButton));
 }
 
+// Return the weather info and build up cards for each day displaying the rough weather conditions.
 let buildWeatherCard = value => {
     let time = dayjs.unix(value.dt).format('MMMM D');
     let icon = value.weather[0].icon;
@@ -111,6 +118,7 @@ let buildWeatherCard = value => {
     $('#seven-day-forecast').append(weatherCard);
 }
 
+// Build our history of searches via buttons.
 let buildHistoryButton = value => {
     let coordinates = {city: value.city, lat: value.lat , lon: value.lon};
     let historyButton = $('<button>'+value. city+'</button>')
@@ -124,6 +132,7 @@ let buildHistoryButton = value => {
     $('#history-buttons').append(historyButton)
 }
 
+// Push the current forecast to the top section of the website and display relevent information.
 let pushCurrentForecast = data => {
     let icon = data.icon
     $('#current-date').text(dayjs.unix(data.date).format('MMMM D'))
@@ -134,6 +143,7 @@ let pushCurrentForecast = data => {
     $('#current-icon').attr('src', 'http://openweathermap.org/img/wn/'+icon+'@2x.png')
 }
 
+// Push the weekly weather information to our function that builds weather cards.
 let pushSevenDayForecast = data => {
     data.pop()
     $.each(data, (index, value) => {
@@ -141,6 +151,7 @@ let pushSevenDayForecast = data => {
     })
 }
 
+// Handle local storage. Keep a maximum of five entries.
 let addSearchHistory = (coordinates) => {
     let searchHistory = localStorage.getItem('searchHistory');
     if (searchHistory) {
@@ -165,6 +176,7 @@ let addSearchHistory = (coordinates) => {
     updateSearchHistory()
 }
 
+// Keep our search history up-to-date.
 let updateSearchHistory = () => {
     let searchHistory = localStorage.getItem('searchHistory');
     if (searchHistory) {

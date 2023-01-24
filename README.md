@@ -1,20 +1,27 @@
-# weather-dashboard
-Monash University Coding Bootcamp Assignment - Module 6 - Weather Dashboard
+# Weather Dashboard
 
-# User Story
+## Description
 
-AS A traveler
-I WANT to see the weather outlook for multiple cities
-SO THAT I can plan a trip accordingly
+This application has been designed to allow the user easy, readily available information about current and future weather, both at their current location as well as any other areas they wish to discern more about.
 
-# Acceptance Criteria
+    - The application uses both browser-based geolocation settings as well as a paired usage of geolocating API and Open Weather API.
+    - This application keeps track of the five most recent search entries for the user convenience.
 
-- GIVEN a weather dashboard with form inputs
-- WHEN I search for a city
-- THEN I am presented with current and future conditions for that city and that city is added to the search history
-- WHEN I view current weather conditions for that city
-- THEN I am presented with the city name, the date, an icon representation of weather conditions, the temperature, the humidity, and the the wind speed
-- WHEN I view future weather conditions for that city
-- THEN I am presented with a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, the wind speed, and the humidity
-- WHEN I click on a city in the search history
-- THEN I am again presented with current and future conditions for that city
+## Installation
+
+This application is currently running at: https://garrettchaney.github.io/weather-dashboard/
+
+## Usage
+
+Upon loading the page the user will be presented with the option to share their location with the browser. If accepted, the weather based upon the user's current location will be displayed, as well as a seven day forecast.
+ 
+    - The user can decline to share their location with zero repercussions.
+
+The user can search for cities using the provided search input. If multiple city options exist, the user will be presented a table from which to select the location they desire specifically, and after which will be provided both the current forecast as well as a the future seven days.
+
+## License
+See attached license.
+
+## Mockup Image
+
+![Mockup website!](./assets/images/weather-dashboard-mockup.png)
