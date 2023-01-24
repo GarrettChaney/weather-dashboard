@@ -10,6 +10,16 @@ body {
     border: 1px solid black;
 }
 
+#current-icon,
+#weather-card-icon {
+    width: 40px;
+    height: 40px;
+}
+
+img[src=""] {
+    display: none;
+}
+
 .card {
     height: 200px;
     width: 150px;

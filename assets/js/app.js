@@ -1,3 +1,33 @@
+let G, options, spans;
+
+function init() {
+    if (navigator.geolocation) {
+        let giveUp = 1000 * 30;
+        let tooOld = 1000 * 60 * 60;
+        options = {
+            enableHighAccuracy: false,
+            timeout: giveUp,
+            maximumAge: tooOld
+        }
+    
+    navigator.geolocation.getCurrentPosition(gotPos, posFail, options);
+    } else {
+
+    }
+} 
+
+function gotPos(position) {
+    let lat = parseFloat(position.coords.latitude.toFixed(2))
+    let lon = parseFloat(position.coords.longitude.toFixed(2))
+    openWeatherAPI({city: 'Your Location', lat: lat, lon: lon});
+}
+
+function posFail(err) {
+    $('#main-header').text(err.message)
+}
+
+$(document).ready(init)
+
 $('#location-button').click( () => {
     let query = $('#location-input').val();
     if (query === '') {
@@ -15,6 +45,7 @@ $('.modal-background').click( () => {
 })
 
 let geoLocationAPI = (query) => {
+    console.log(query)
     let apiKey = 'cf4c28c944be675eda76e953b6fa73c2';
     let url =`https://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=${apiKey}`;
     $.ajax({
@@ -39,7 +70,7 @@ let openWeatherAPI = ({city, lat, lon}) => {
         method: 'GET',
     })
     .then( (data) => {
-        let currentWeather = {city: city, date: data.current.dt, temp: data.current.temp, wind: data.current.wind_speed, humidity:data.current.humidity};
+        let currentWeather = {city: city, date: data.current.dt, temp: data.current.temp, wind: data.current.wind_speed, humidity: data.current.humidity, icon: data.current.weather[0].icon};
         pushSevenDayForecast(data.daily)
         pushCurrentForecast(currentWeather)
     })
@@ -65,10 +96,12 @@ let buildLocationTable = location => {
 
 let buildWeatherCard = value => {
     let time = dayjs.unix(value.dt).format('MMMM D');
+    let icon = value.weather[0].icon;
     let weatherCard = `
         <div class="card has-background-info">
             <div class="card-content p-2 is-flex is-flex-direction-column is-justify-content-space-evenly">
                 <p class="has-text-weight-bold is-size-5">${time}</p>
+                <img id="weather-card-icon" src="http://openweathermap.org/img/wn/${icon}@2x.png">
                 <p><span class="has-text-weight-bold">Temp:</span> ${value.temp.day}&#176;C</p>
                 <p><span class="has-text-weight-bold">Wind:</span> ${value.wind_speed}m/s</p>
                 <p><span class="has-text-weight-bold">Humidity:</span> ${value.humidity}%</p>
@@ -92,11 +125,13 @@ let buildHistoryButton = value => {
 }
 
 let pushCurrentForecast = data => {
+    let icon = data.icon
     $('#current-date').text(dayjs.unix(data.date).format('MMMM D'))
     $('#current-location').text(data.city);
     $('#current-temperature').text(data.temp);
     $('#current-wind').text(data.wind);
     $('#current-humidity').text(data.humidity);
+    $('#current-icon').attr('src', 'http://openweathermap.org/img/wn/'+icon+'@2x.png')
 }
 
 let pushSevenDayForecast = data => {
@@ -142,38 +177,3 @@ let updateSearchHistory = () => {
 }
 
 updateSearchHistory()
-
-
-// $('#pakenham-button').click( () => {
-//     let time = dayjs.unix(1674957600).format()
-//     console.log(time)
-// })
-
-// let G, options, spans;
-
-// $(document).ready(init)
-
-// function init() {
-//     if (navigator.geolocation) {
-//         let giveUp = 1000 * 30;
-//         let tooOld = 1000 * 60 * 60;
-//         options = {
-//             enableHighAccuracy: false,
-//             timeout: giveUp,
-//             maximumAge: tooOld
-//         }
-    
-//     navigator.geolocation.getCurrentPosition(gotPos, posFail, options);
-//     } else {
-
-//     }
-// } 
-
-// function gotPos(position) {
-//     console.log(position.coords.latitude)
-//     console.log(position.coords.longitude)
-// }
-
-// function posFail(err) {
-//     $('#main-header').text(err.message)
-// }
