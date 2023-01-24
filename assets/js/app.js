@@ -64,7 +64,7 @@ let buildLocationTable = location => {
 }
 
 let buildWeatherCard = value => {
-    let time = dayjs.unix(value.dt).format('DD/MM/YYYY');
+    let time = dayjs.unix(value.dt).format('MMMM D');
     let weatherCard = `
         <div class="card has-background-info">
             <div class="card-content p-2 is-flex is-flex-direction-column is-justify-content-space-evenly">
@@ -92,7 +92,7 @@ let buildHistoryButton = value => {
 }
 
 let pushCurrentForecast = data => {
-    $('#current-date').text(dayjs.unix(data.date).format('DD/MM/YYYY'))
+    $('#current-date').text(dayjs.unix(data.date).format('MMMM D'))
     $('#current-location').text(data.city);
     $('#current-temperature').text(data.temp);
     $('#current-wind').text(data.wind);
